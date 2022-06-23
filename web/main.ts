@@ -611,6 +611,7 @@ class GitGraphView {
 			branches: this.currentBranches === null || (this.currentBranches.length === 1 && this.currentBranches[0] === SHOW_ALL_BRANCHES) ? null : this.currentBranches,
 			maxCommits: this.maxCommits,
 			showTags: getShowTags(repoState.showTags),
+			onlyNamedCommit: getOnlyNamedCommit(repoState.onlyNamedCommit),
 			showRemoteBranches: getShowRemoteBranches(repoState.showRemoteBranchesV2),
 			includeCommitsMentionedByReflogs: getIncludeCommitsMentionedByReflogs(repoState.includeCommitsMentionedByReflogs),
 			onlyFollowFirstParent: getOnlyFollowFirstParent(repoState.onlyFollowFirstParent),
@@ -3635,6 +3636,12 @@ function getShowStashes(repoValue: GG.BooleanOverride) {
 function getShowTags(repoValue: GG.BooleanOverride) {
 	return repoValue === GG.BooleanOverride.Default
 		? initialState.config.showTags
+		: repoValue === GG.BooleanOverride.Enabled;
+}
+
+function getOnlyNamedCommit(repoValue: GG.BooleanOverride) {
+	return repoValue === GG.BooleanOverride.Default
+		? initialState.config.onlyNamedCommit
 		: repoValue === GG.BooleanOverride.Enabled;
 }
 

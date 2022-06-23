@@ -1230,6 +1230,7 @@ describe('RepoManager', () => {
 				showRemoteBranchesV2: BooleanOverride.Default,
 				showStashes: BooleanOverride.Default,
 				showTags: BooleanOverride.Default,
+				onlyNamedCommit: BooleanOverride.Default,
 				workspaceFolderIndex: 0
 			};
 
@@ -1988,6 +1989,7 @@ describe('RepoManager', () => {
 						showRemoteBranchesV2: BooleanOverride.Default,
 						showStashes: BooleanOverride.Default,
 						showTags: BooleanOverride.Default,
+						onlyNamedCommit: BooleanOverride.Default,
 						workspaceFolderIndex: 0
 					}
 				};
@@ -2083,6 +2085,11 @@ describe('RepoManager', () => {
 				it('Should import BooleanOverride.Enabled correctly', testApplyField('showTags', BooleanOverride.Enabled, 'showTags', true));
 				it('Should import BooleanOverride.Disabled correctly', testApplyField('showTags', BooleanOverride.Disabled, 'showTags', false));
 			});
+
+			describe('onlyNamedCommit', () => {
+				it('Should import BooleanOverride.Enabled correctly', testApplyField('onlyNamedCommit', BooleanOverride.Enabled, 'onlyNamedCommit', true));
+				it('Should import BooleanOverride.Disabled correctly', testApplyField('onlyNamedCommit', BooleanOverride.Disabled, 'onlyNamedCommit', false));
+			});
 		});
 
 		describe('validation', () => {
@@ -2141,6 +2148,7 @@ describe('RepoManager', () => {
 			it('Should display a validation error when "showRemoteBranches" is invalid', testValidationOfField('showRemoteBranches', 'invalid'));
 			it('Should display a validation error when "showStashes" is invalid', testValidationOfField('showStashes', 'invalid'));
 			it('Should display a validation error when "showTags" is invalid', testValidationOfField('showTags', 'invalid'));
+			it('Should display a validation error when "onlyNamedCommit" is invalid', testValidationOfField('onlyNamedCommit', 'invalid'));
 		});
 
 		it('Shouldn\'t proceed with processing config if it couldn\'t be parsed', async () => {

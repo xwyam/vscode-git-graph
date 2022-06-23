@@ -2772,6 +2772,8 @@ describe('Config', () => {
 
 	describe('showTags', testRenamedBooleanExtensionSetting('showTags', 'repository.showTags', 'showTags', true));
 
+	describe('onlyNamedCommit', testRenamedBooleanExtensionSetting('onlyNamedCommit', 'repository.onlyNamedCommit', 'onlyNamedCommit', true));
+
 	describe('showUncommittedChanges', testRenamedBooleanExtensionSetting('showUncommittedChanges', 'repository.showUncommittedChanges', 'showUncommittedChanges', true));
 
 	describe('showUntrackedFiles', testRenamedBooleanExtensionSetting('showUntrackedFiles', 'repository.showUntrackedFiles', 'showUntrackedFiles', true));

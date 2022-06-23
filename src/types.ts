@@ -207,6 +207,7 @@ export interface GitRepoState {
 	showRemoteBranchesV2: BooleanOverride;
 	showStashes: BooleanOverride;
 	showTags: BooleanOverride;
+	onlyNamedCommit: BooleanOverride;
 	workspaceFolderIndex: number | null;
 }
 
@@ -251,6 +252,7 @@ export interface GitGraphViewConfig {
 	readonly showRemoteBranches: boolean;
 	readonly showStashes: boolean;
 	readonly showTags: boolean;
+	readonly onlyNamedCommit: boolean;
 }
 
 export interface GitGraphViewGlobalState {
@@ -873,6 +875,7 @@ export interface RequestLoadCommits extends RepoRequest {
 	readonly branches: ReadonlyArray<string> | null; // null => Show All
 	readonly maxCommits: number;
 	readonly showTags: boolean;
+	readonly onlyNamedCommit: boolean;
 	readonly showRemoteBranches: boolean;
 	readonly includeCommitsMentionedByReflogs: boolean;
 	readonly onlyFollowFirstParent: boolean;

@@ -485,6 +485,13 @@ class Config {
 	}
 
 	/**
+	 * Get the value of the `git-graph.repository.onlyNamedCommit` Extension Setting.
+	 */
+	 get onlyNamedCommit() {
+		return !!this.getRenamedExtensionSetting('repository.onlyNamedCommit', 'onlyNamedCommit', true);
+	}
+
+	/**
 	 * Get the value of the `git-graph.repository.showUncommittedChanges` Extension Setting.
 	 */
 	get showUncommittedChanges() {

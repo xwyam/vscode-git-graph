@@ -149,6 +149,7 @@ export class DataSource extends Disposable {
 	 * @param branches The list of branch heads to display, or NULL (show all).
 	 * @param maxCommits The maximum number of commits to return.
 	 * @param showTags Are tags are shown.
+	 * @param onlyNamedCommit Are only named commits are shown.
 	 * @param showRemoteBranches Are remote branches shown.
 	 * @param includeCommitsMentionedByReflogs Should commits mentioned by reflogs being included.
 	 * @param onlyFollowFirstParent Only follow the first parent of commits.
@@ -158,10 +159,10 @@ export class DataSource extends Disposable {
 	 * @param stashes An array of all stashes in the repository.
 	 * @returns The commits in the repository.
 	 */
-	public getCommits(repo: string, branches: ReadonlyArray<string> | null, maxCommits: number, showTags: boolean, showRemoteBranches: boolean, includeCommitsMentionedByReflogs: boolean, onlyFollowFirstParent: boolean, commitOrdering: CommitOrdering, remotes: ReadonlyArray<string>, hideRemotes: ReadonlyArray<string>, stashes: ReadonlyArray<GitStash>): Promise<GitCommitData> {
+	public getCommits(repo: string, branches: ReadonlyArray<string> | null, maxCommits: number, onlyNamedCommit: boolean, showTags: boolean, showRemoteBranches: boolean, includeCommitsMentionedByReflogs: boolean, onlyFollowFirstParent: boolean, commitOrdering: CommitOrdering, remotes: ReadonlyArray<string>, hideRemotes: ReadonlyArray<string>, stashes: ReadonlyArray<GitStash>): Promise<GitCommitData> {
 		const config = getConfig();
 		return Promise.all([
-			this.getLog(repo, branches, maxCommits + 1, showTags && config.showCommitsOnlyReferencedByTags, showRemoteBranches, includeCommitsMentionedByReflogs, onlyFollowFirstParent, commitOrdering, remotes, hideRemotes, stashes),
+			this.getLog(repo, branches, maxCommits + 1, onlyNamedCommit, showTags && config.showCommitsOnlyReferencedByTags, showRemoteBranches, includeCommitsMentionedByReflogs, onlyFollowFirstParent, commitOrdering, remotes, hideRemotes, stashes),
 			this.getRefs(repo, showRemoteBranches, config.showRemoteHeads, hideRemotes).then((refData: GitRefData) => refData, (errorMessage: string) => errorMessage)
 		]).then(async (results) => {
 			let commits: GitCommitRecord[] = results[0], refData: GitRefData | string = results[1], i;
@@ -1458,6 +1459,7 @@ export class DataSource extends Disposable {
 	 * @param repo The path of the repository.
 	 * @param branches The list of branch heads to display, or NULL (show all).
 	 * @param num The maximum number of commits to return.
+	 * @param onlyNamedCommit Are only named commits are shown.
 	 * @param includeTags Include commits only referenced by tags.
 	 * @param includeRemotes Include remote branches.
 	 * @param includeCommitsMentionedByReflogs Include commits mentioned by reflogs.
@@ -1468,10 +1470,13 @@ export class DataSource extends Disposable {
 	 * @param stashes An array of all stashes in the repository.
 	 * @returns An array of commits.
 	 */
-	private getLog(repo: string, branches: ReadonlyArray<string> | null, num: number, includeTags: boolean, includeRemotes: boolean, includeCommitsMentionedByReflogs: boolean, onlyFollowFirstParent: boolean, order: CommitOrdering, remotes: ReadonlyArray<string>, hideRemotes: ReadonlyArray<string>, stashes: ReadonlyArray<GitStash>) {
+	private getLog(repo: string, branches: ReadonlyArray<string> | null, num: number, onlyNamedCommit: boolean, includeTags: boolean, includeRemotes: boolean, includeCommitsMentionedByReflogs: boolean, onlyFollowFirstParent: boolean, order: CommitOrdering, remotes: ReadonlyArray<string>, hideRemotes: ReadonlyArray<string>, stashes: ReadonlyArray<GitStash>) {
 		const args = ['-c', 'log.showSignature=false', 'log', '--max-count=' + num, '--format=' + this.gitFormatLog, '--' + order + '-order'];
 		if (onlyFollowFirstParent) {
 			args.push('--first-parent');
+		}
+		if (onlyNamedCommit) {
+			args.push('--simplify-by-decoration');
 		}
 		if (branches !== null) {
 			for (let i = 0; i < branches.length; i++) {

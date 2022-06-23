@@ -158,6 +158,7 @@ class SettingsWidget {
 				'</table>' +
 				'<label id="settingsShowStashes"><input type="checkbox" id="settingsShowStashesCheckbox" tabindex="-1"><span class="customCheckbox"></span>Show Stashes</label><br/>' +
 				'<label id="settingsShowTags"><input type="checkbox" id="settingsShowTagsCheckbox" tabindex="-1"><span class="customCheckbox"></span>Show Tags</label><br/>' +
+				'<label id="settingsOnlyNamedCommit"><input type="checkbox" id="settingsOnlyNamedCommitCheckbox" tabindex="-1"><span class="customCheckbox"></span>Only Named Commit</label><br/>' +
 				'<label id="settingsIncludeCommitsMentionedByReflogs"><input type="checkbox" id="settingsIncludeCommitsMentionedByReflogsCheckbox" tabindex="-1"><span class="customCheckbox"></span>Include commits only mentioned by reflogs</label><span class="settingsWidgetInfo" title="Only applies when showing all branches.">' + SVG_ICONS.info + '</span><br/>' +
 				'<label id="settingsOnlyFollowFirstParent"><input type="checkbox" id="settingsOnlyFollowFirstParentCheckbox" tabindex="-1"><span class="customCheckbox"></span>Only follow the first parent of commits</label><span class="settingsWidgetInfo" title="Instead of following all parents of commits, only follow the first parent when discovering the commits to load.">' + SVG_ICONS.info + '</span>' +
 				'</div>';
@@ -315,6 +316,16 @@ class SettingsWidget {
 				const elem = <HTMLInputElement | null>document.getElementById('settingsShowTagsCheckbox');
 				if (elem === null) return;
 				this.view.saveRepoStateValue(this.currentRepo, 'showTags', elem.checked ? GG.BooleanOverride.Enabled : GG.BooleanOverride.Disabled);
+				this.view.refresh(true);
+			});
+
+			const onlyNamedCommitElem = <HTMLInputElement>document.getElementById('settingsOnlyNamedCommitCheckbox');
+			onlyNamedCommitElem.checked = getOnlyNamedCommit(this.repo.onlyNamedCommit);
+			onlyNamedCommitElem.addEventListener('change', () => {
+				if (this.currentRepo === null) return;
+				const elem = <HTMLInputElement | null>document.getElementById('settingsOnlyNamedCommitCheckbox');
+				if (elem === null) return;
+				this.view.saveRepoStateValue(this.currentRepo, 'onlyNamedCommit', elem.checked ? GG.BooleanOverride.Enabled : GG.BooleanOverride.Disabled);
 				this.view.refresh(true);
 			});
 

@@ -1043,6 +1043,11 @@
 					"default": true,
 					"description": "Show Tags in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget."
 				},
+				"git-graph.repository.onlyNamedCommit": {
+					"type": "boolean",
+					"default": true,
+					"description": "Only Named Commit in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget."
+				},
 				"git-graph.repository.showUncommittedChanges": {
 					"type": "boolean",
 					"default": true,
@@ -1410,6 +1415,13 @@
 					"description": "Show Tags in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget.",
 					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.showTags",
 					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.showTags#`"
+				},
+				"git-graph.onlyNamedCommit": {
+					"type": "boolean",
+					"default": true,
+					"description": "Only Named Commit in Git Graph by default. This can be overridden per repository in the Git Graph View's Repository Settings Widget.",
+					"deprecationMessage": "Depreciated: This setting has been renamed to git-graph.repository.onlyNamedCommit",
+					"markdownDeprecationMessage": "Depreciated: This setting has been renamed to `#git-graph.repository.onlyNamedCommit#`"
 				},
 				"git-graph.showUncommittedChanges": {
 					"type": "boolean",

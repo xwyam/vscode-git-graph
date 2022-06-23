@@ -791,6 +791,7 @@ export namespace ExternalRepoConfig {
 		showRemoteBranches?: boolean;
 		showStashes?: boolean;
 		showTags?: boolean;
+		onlyNamedCommit?: boolean;
 		exportedAt?: number;
 	}
 
@@ -913,6 +914,9 @@ function generateExternalConfigFile(state: GitRepoState): Readonly<ExternalRepoC
 	if (state.showTags !== BooleanOverride.Default) {
 		file.showTags = state.showTags === BooleanOverride.Enabled;
 	}
+	if (state.onlyNamedCommit !== BooleanOverride.Default) {
+		file.onlyNamedCommit = state.onlyNamedCommit === BooleanOverride.Enabled;
+	}
 	file.exportedAt = (new Date()).getTime();
 	return file;
 }
@@ -979,6 +983,9 @@ function validateExternalConfigFile(file: Readonly<ExternalRepoConfig.File>) {
 	}
 	if (typeof file.showTags !== 'undefined' && typeof file.showTags !== 'boolean') {
 		return 'showTags';
+	}
+	if (typeof file.onlyNamedCommit !== 'undefined' && typeof file.onlyNamedCommit !== 'boolean') {
+		return 'onlyNamedCommit';
 	}
 	return null;
 }
@@ -1069,5 +1076,8 @@ function applyExternalConfigFile(file: Readonly<ExternalRepoConfig.File>, state:
 	}
 	if (typeof file.showTags !== 'undefined') {
 		state.showTags = file.showTags ? BooleanOverride.Enabled : BooleanOverride.Disabled;
+	}
+	if (typeof file.onlyNamedCommit !== 'undefined') {
+		state.onlyNamedCommit = file.onlyNamedCommit ? BooleanOverride.Enabled : BooleanOverride.Disabled;
 	}
 }
